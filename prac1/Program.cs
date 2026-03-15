@@ -5,23 +5,23 @@ using prac1.Data;
 using var db = new AppDbContext();
 
 db.Database.EnsureCreated();
-Console.WriteLine("База данных готова.");
+Console.WriteLine("База даних готова");
 
-var point = new RentalPoint { Address = "Центральный Парк" };
+var point = new RentalPoint { Address = "Центральний Парк" };
 point.Scooters.Add(new Scooter { Model = "Xiaomi Pro 2", BatteryLevel = 95 });
 
 db.RentalPoints.Add(point);
 db.SaveChanges();
-Console.WriteLine("Данные добавлены!");
+Console.WriteLine("Данні додані");
 
 var allScooters = db.Scooters.ToList();
-Console.WriteLine($"В базе сейчас самокатов: {allScooters.Count}");
+Console.WriteLine($"В бізі на разі самокатів: {allScooters.Count}");
 
 var firstScooter = db.Scooters.First();
-firstScooter.BatteryLevel = 50; // Разрядился
+firstScooter.BatteryLevel = 50;
 db.SaveChanges();
-Console.WriteLine("Заряд самоката обновлен.");
+Console.WriteLine("Заряд самоката оновлено");
 
 db.Scooters.Remove(firstScooter);
 db.SaveChanges();
-Console.WriteLine("Самокат удален.");
+Console.WriteLine("Самокат видалено");
