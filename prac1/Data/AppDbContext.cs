@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
     public DbSet<RentalPoint> RentalPoints => Set<RentalPoint>();
     public DbSet<Scooter> Scooters => Set<Scooter>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

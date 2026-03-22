@@ -1,27 +1,38 @@
-﻿using prac1;
+﻿using prac1.Data;
 using prac1.Models;
-using prac1.Data;
+using Microsoft.EntityFrameworkCore;
 
-using var db = new AppDbContext();
+Console.WriteLine("Додавання даних");
+using (var db = new AppDbContext())
+{
+    var newUser = new User { FullName = "Прохор", PhoneNumber = "+380000000000" };
+    db.Users.Add(newUser);
+    
+    Console.WriteLine($"Стан сутності до SaveChanges: {db.Entry(newUser).State}");
+    
+    db.SaveChanges();
+    Console.WriteLine($"Дані збережено. Стан: {db.Entry(newUser).State}");
+}
 
-db.Database.EnsureCreated();
-Console.WriteLine("База данных готова.");
+Console.WriteLine("\nОновлення (Change Tracking)");
+using (var db = new AppDbContext())
+{
+    var user = db.Users.First();
+    user.FullName = "Прохор Оновлений";
+    
+    Console.WriteLine($"Стан після зміни властиіості: {db.Entry(user).State}");
+    
+    db.SaveChanges();
+    Console.WriteLine("Зміни зафіксовано в БД");
+}
 
-var point = new RentalPoint { Address = "Центральный Парк" };
-point.Scooters.Add(new Scooter { Model = "Xiaomi Pro 2", BatteryLevel = 95 });
-
-db.RentalPoints.Add(point);
-db.SaveChanges();
-Console.WriteLine("Данные добавлены!");
-
-var allScooters = db.Scooters.ToList();
-Console.WriteLine($"В базе сейчас самокатов: {allScooters.Count}");
-
-var firstScooter = db.Scooters.First();
-firstScooter.BatteryLevel = 50; // Разрядился
-db.SaveChanges();
-Console.WriteLine("Заряд самоката обновлен.");
-
-db.Scooters.Remove(firstScooter);
-db.SaveChanges();
-Console.WriteLine("Самокат удален.");
+Console.WriteLine("\nВидалення");
+using (var db = new AppDbContext())
+{
+    var user = db.Users.First();
+    db.Users.Remove(user);
+    Console.WriteLine($"Стан після Remove: {db.Entry(user).State}");
+    
+    db.SaveChanges();
+    Console.WriteLine("Користувача видалено");
+}
