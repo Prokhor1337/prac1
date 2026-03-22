@@ -8,4 +8,5 @@ public class Scooter
     
     public int RentalPointId { get; set; }
     public RentalPoint? RentalPoint { get; set; }
+    public DateTime LastMaintenanceDate { get; set; } = DateTime.UtcNow;
 }
